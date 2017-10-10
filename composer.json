@@ -1,0 +1,52 @@
+{
+  "name": "contributte/facebook",
+  "description": "Ultra easy-to-use Facebook login wrapper for [`Nette Framework`](https://github.com/nette/).",
+  "keywords": ["facebook", "login", "php", "sdk", "nette", "oauth2"],
+  "type": "library",
+  "license": "MIT",
+  "homepage": "https://github.com/contributte/facebook",
+  "authors": [
+    {
+      "name": "Milan Felix Šulc",
+      "homepage": "https://f3l1x.io"
+    },
+    {
+      "name": "Filip Šuška"
+    }
+  ],
+  "require": {
+    "php": ">= 7.1",
+    "facebook/graph-sdk": "^5.6",
+    "nette/http": "^2.4"
+  },
+  "require-dev": {
+    "ninjify/qa": "^0.6.0",
+    "ninjify/nunjuck": "^0.2.0",
+    "nette/di": "^2.4.10"
+  },
+  "autoload": {
+    "psr-4": {
+      "Contributte\\Facebook\\": "src"
+    }
+  },
+  "scripts": {
+    "qa": [
+      "linter src tests",
+      "codesniffer src tests"
+    ],
+    "tester": [
+      "tester -s -p php --colors 1 -C tests/cases"
+    ],
+    "coverage": [
+      "tester -s -p php --colors 1 -C -d extension=xdebug.so --coverage ./coverage.xml --coverage-src ./src tests/cases"
+    ],
+    "phpstan-install": [
+      "mkdir -p temp/phpstan",
+      "composer require -d temp/phpstan phpstan/phpstan:0.8.5",
+      "composer require -d temp/phpstan phpstan/phpstan-nette:0.8.3"
+    ],
+    "phpstan": [
+      "temp/phpstan/vendor/bin/phpstan analyse -l 1 -c phpstan.neon src"
+    ]
+  }
+}
