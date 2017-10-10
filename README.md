@@ -46,8 +46,6 @@ composer require contributte/facebook
         </br>
         <a href="https://github.com/f3l1x">Milan Felix Šulc</a>
       </td>
-    </tr>
-    <tr>
       <td align="center">
         <a href="https://github.com/Vody105">
             <img width="150" height="150" src="https://avatars2.githubusercontent.com/u/22433893?v=3&s=150">
