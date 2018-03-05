@@ -7,7 +7,7 @@ use RuntimeException;
 /**
  * Class FacebookException
  *
- * @author Filip Suska <filipsuska@gmail.com>
+ * @author Filip Suska <vody105@gmail.com>
  */
 class FacebookLoginException extends RuntimeException
 {

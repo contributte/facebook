@@ -2,16 +2,16 @@
 
 namespace Contributte\Facebook\DI\Nette;
 
+use Contributte\Facebook\FacebookFactory;
 use Contributte\Facebook\FacebookLogin;
-use Facebook\Facebook;
 use Nette\DI\CompilerExtension;
-use Nette\DI\Statement;
+use Nette\Utils\AssertionException;
 use Nette\Utils\Validators;
 
 /**
  * Class FacebookExtension
  *
- * @author Filip Suska <filipsuska@gmail.com>
+ * @author Filip Suska <vody105@gmail.com>
  */
 class FacebookExtension extends CompilerExtension
 {
@@ -20,10 +20,13 @@ class FacebookExtension extends CompilerExtension
 	private $defaults = [
 		'appId' => NULL,
 		'appSecret' => NULL,
+		'defaultGraphVersion' => NULL,
+		'persistentDataHandler' => 'session',
 	];
 
 	/**
 	 * @return void
+	 * @throws AssertionException
 	 */
 	public function loadConfiguration(): void
 	{
@@ -32,16 +35,28 @@ class FacebookExtension extends CompilerExtension
 
 		Validators::assertField($config, 'appId', 'string|number');
 		Validators::assertField($config, 'appSecret', 'string|number');
+		Validators::assertField($config, 'persistentDataHandler', 'string');
 
 		$appData = [
 			'app_id' => $config['appId'],
 			'app_secret' => $config['appSecret'],
+			'persistent_data_handler' => $config['persistentDataHandler'],
 		];
 
+		// Facebook has its own default value for default_graph_version
+		if ($config['defaultGraphVersion'] !== NULL) {
+			$appData['default_graph_version'] = $config['defaultGraphVersion'];
+		}
+
+		$builder->addDefinition($this->prefix('facebookFactory'))
+			->setType(FacebookFactory::class)
+			->setArguments([$appData]);
+
+		$builder->addDefinition($this->prefix('facebook'))
+			->setFactory('@' . $this->prefix('facebookFactory') . '::create');
+
 		$builder->addDefinition($this->prefix('login'))
-			->setClass(FacebookLogin::class, [
-				new Statement(Facebook::class, [$appData]),
-			]);
+			->setType(FacebookLogin::class);
 	}
 
 }

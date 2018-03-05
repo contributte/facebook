@@ -13,6 +13,8 @@ You need to create a FacebookApp and supply these parameters:
 
 * **appId**
 * **appSecret**
+* **defaultGraphVersion** (optional)
+* **persistentDataHandler** (optional) default value: **session**
 
 ## Installation
 
@@ -73,6 +75,8 @@ final class SignPresenter extends Presenter
 
 ```
 
+If you need to specify your own state param (more info [here](https://developers.facebook.com/docs/facebook-login/security/#stateparam) mind also checking Enable Strict Mode). `Facebook::getLoginurl()` takes optional third parameter `$stateParam` which FB passes back unchanged.
+
 ## JavaScript
 
 You can also use FB login button, for example:
@@ -109,7 +113,6 @@ public function actionFacebookCookie()
         $this->user->login('facebook', $this->facebookLogin->getMe($token, ['first_name', 'last_name', 'email', 'gender']));
         $this->flashMessage('Login successful :-).', 'success');
     } catch (FacebookLoginException | AuthenticationException $e) {
-        EconeaLogger::fatal($e);
         $this->flashMessage('Login failed. :-( Try again.', 'danger');
     }
 }

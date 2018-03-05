@@ -8,12 +8,11 @@ use Facebook\Exceptions\FacebookResponseException;
 use Facebook\Exceptions\FacebookSDKException;
 use Facebook\Facebook;
 use Facebook\GraphNodes\GraphUser;
-use Nette\Http\Session;
 
 /**
  * Class LoginService
  *
- * @author Filip Suska <filipsuska@gmail.com>
+ * @author Filip Suska <vody105@gmail.com>
  */
 class FacebookLogin
 {
@@ -21,17 +20,13 @@ class FacebookLogin
 	/** @var Facebook */
 	private $facebook;
 
-	/** @var Session */
-	private $session;
-
 	/**
 	 * @param Facebook $facebook
-	 * @param Session $session
+	 * @throws FacebookSDKException
 	 */
-	public function __construct(Facebook $facebook, Session $session)
+	public function __construct(Facebook $facebook)
 	{
 		$this->facebook = $facebook;
-		$this->session = $session;
 	}
 
 	/**
@@ -39,15 +34,19 @@ class FacebookLogin
 	 *
 	 * @param string $redirectUrl
 	 * @param string[] $permissions
+	 * @param string|null $stateParam
 	 * @return string
 	 */
-	public function getLoginurl(string $redirectUrl, array $permissions = ['public_profile']): string
+	public function getLoginurl(string $redirectUrl, array $permissions = ['public_profile'], ?string $stateParam = NULL): string
 	{
-		// FB requires session started
-		$this->session->start();
-
 		// Create redirect URL with econea return URL
 		$helper = $this->facebook->getRedirectLoginHelper();
+
+		// Set our own state param
+		if (isset($stateParam)) {
+			$helper->getPersistentDataHandler()->set('state', $stateParam);
+		}
+
 		$url = $helper->getLoginUrl($redirectUrl, $permissions);
 
 		return $url;
@@ -61,9 +60,6 @@ class FacebookLogin
 	 */
 	public function getAccessToken(): AccessToken
 	{
-		// FB requires session started
-		$this->session->start();
-
 		$helper = $this->facebook->getRedirectLoginHelper();
 
 		try {
@@ -128,6 +124,7 @@ class FacebookLogin
 	/**
 	 * @param AccessToken $accessToken
 	 * @return AccessToken
+	 * @throws FacebookSDKException
 	 */
 	private function getLongLifeValidatedToken(AccessToken $accessToken): AccessToken
 	{
