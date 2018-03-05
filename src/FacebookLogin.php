@@ -37,7 +37,7 @@ class FacebookLogin
 	 * @param string|null $stateParam
 	 * @return string
 	 */
-	public function getLoginurl(string $redirectUrl, array $permissions = ['public_profile'], ?string $stateParam = NULL): string
+	public function getLoginUrl(string $redirectUrl, array $permissions = ['public_profile'], ?string $stateParam = NULL): string
 	{
 		// Create redirect URL with econea return URL
 		$helper = $this->facebook->getRedirectLoginHelper();

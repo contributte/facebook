@@ -49,7 +49,7 @@ final class SignPresenter extends Presenter
     public function actionFacebook()
     {
         // Redirect to FB and ask customer to grant access to his account
-        $url = $this->facebook->getLoginurl($this->link('//facebookAuthorize'), ['email', 'public_profile']);
+        $url = $this->facebook->getLoginUrl($this->link('//facebookAuthorize'), ['email', 'public_profile']);
         $this->sendResponse(new RedirectResponse($url));
     }
 
@@ -75,7 +75,7 @@ final class SignPresenter extends Presenter
 
 ```
 
-If you need to specify your own state param (more info [here](https://developers.facebook.com/docs/facebook-login/security/#stateparam) mind also checking Enable Strict Mode). `Facebook::getLoginurl()` takes optional third parameter `$stateParam` which FB passes back unchanged.
+If you need to specify your own state param (more info [here](https://developers.facebook.com/docs/facebook-login/security/#stateparam) mind also checking Enable Strict Mode). `Facebook::getLoginUrl()` takes optional third parameter `$stateParam` which FB passes back unchanged.
 
 ## JavaScript
 
