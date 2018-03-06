@@ -44,12 +44,12 @@ final class SignPresenter extends Presenter
 {
 
     /** @var FacebookLogin @inject */
-    public $facebook;
+    public $facebookLogin;
 
     public function actionFacebook()
     {
         // Redirect to FB and ask customer to grant access to his account
-        $url = $this->facebook->getLoginUrl($this->link('//facebookAuthorize'), ['email', 'public_profile']);
+        $url = $this->facebookLogin->getLoginUrl($this->link('//facebookAuthorize'), ['email', 'public_profile']);
         $this->sendResponse(new RedirectResponse($url));
     }
 
