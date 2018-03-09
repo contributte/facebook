@@ -24,9 +24,9 @@ composer require contributte/facebook
 
 ## Versions
 
-| State       | Version | Branch   | PHP      |
-|-------------|---------|----------|----------|
-| development | `^0.1`  | `master` | `>= 7.1` |
+| State  | Version | Branch   | PHP      |
+|--------|---------|----------|----------|
+| stable | `^0.2`  | `master` | `>= 7.1` |
 
 ## Overview
 
