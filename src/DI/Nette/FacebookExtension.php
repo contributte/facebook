@@ -33,8 +33,8 @@ class FacebookExtension extends CompilerExtension
 		$config = $this->validateConfig($this->defaults);
 		$builder = $this->getContainerBuilder();
 
-		Validators::assertField($config, 'appId', 'string|number');
-		Validators::assertField($config, 'appSecret', 'string|number');
+		Validators::assertField($config, 'appId', 'string|number|Nette\DI\Statement');
+		Validators::assertField($config, 'appSecret', 'string|number|Nette\DI\Statement');
 		Validators::assertField($config, 'persistentDataHandler', 'string');
 
 		$appData = [
