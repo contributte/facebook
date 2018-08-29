@@ -31,3 +31,24 @@ test(function (): void {
 	// Service created
 	Assert::type(FacebookLogin::class, $container->getService('facebook.login'));
 });
+
+// Test if FacebookLogin is created with Nette\DI\Statement
+test(function (): void {
+	$loader = new ContainerLoader(TEMP_DIR, TRUE);
+	$class = $loader->load(function (Compiler $compiler): void {
+		$compiler->addExtension('http', new HttpExtension())
+			->addExtension('session', new SessionExtension())
+			->addExtension('facebook', new FacebookExtension())
+			->addConfig([
+				'facebook' => [
+					'appId' => '@coolService::getFacebookAppId()',
+					'appSecret' => '@coolService::getFacebookSecret()',
+				],
+			]);
+	}, 1);
+	/** @var Container $container */
+	$container = new $class;
+
+	// Service created
+	Assert::type(FacebookLogin::class, $container->getService('facebook.login'));
+});
