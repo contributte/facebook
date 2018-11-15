@@ -11,8 +11,6 @@ use Facebook\GraphNodes\GraphUser;
 
 /**
  * Class LoginService
- *
- * @author Filip Suska <vody105@gmail.com>
  */
 class FacebookLogin
 {
@@ -21,7 +19,6 @@ class FacebookLogin
 	private $facebook;
 
 	/**
-	 * @param Facebook $facebook
 	 * @throws FacebookSDKException
 	 */
 	public function __construct(Facebook $facebook)
@@ -32,12 +29,9 @@ class FacebookLogin
 	/**
 	 * Creates Response that redirects person to FB for authorization and back
 	 *
-	 * @param string $redirectUrl
 	 * @param string[] $permissions
-	 * @param string|null $stateParam
-	 * @return string
 	 */
-	public function getLoginUrl(string $redirectUrl, array $permissions = ['public_profile'], ?string $stateParam = NULL): string
+	public function getLoginUrl(string $redirectUrl, array $permissions = ['public_profile'], ?string $stateParam = null): string
 	{
 		// Create redirect URL with econea return URL
 		$helper = $this->facebook->getRedirectLoginHelper();
@@ -55,7 +49,6 @@ class FacebookLogin
 	/**
 	 * Gets access token from fb for queried user
 	 *
-	 * @return AccessToken
 	 * @throws FacebookLoginException
 	 */
 	public function getAccessToken(): AccessToken
@@ -68,7 +61,7 @@ class FacebookLogin
 
 			// Failed to get accessToken
 			if (!isset($accessToken)) {
-				if ($helper->getError()) {
+				if ($helper->getError() !== null) {
 					throw new FacebookLoginException($helper->getError());
 				} else {
 					throw new FacebookLoginException('Facebook: Bad request.');
@@ -84,7 +77,6 @@ class FacebookLogin
 	}
 
 	/**
-	 * @return AccessToken
 	 * @throws FacebookLoginException
 	 */
 	public function getAccessTokenFromCookie(): AccessToken
@@ -106,9 +98,7 @@ class FacebookLogin
 	}
 
 	/**
-	 * @param string $accessToken
 	 * @param string[] $fields
-	 * @return GraphUser
 	 */
 	public function getMe(string $accessToken, array $fields): GraphUser
 	{
@@ -122,8 +112,6 @@ class FacebookLogin
 	}
 
 	/**
-	 * @param AccessToken $accessToken
-	 * @return AccessToken
 	 * @throws FacebookSDKException
 	 */
 	private function getLongLifeValidatedToken(AccessToken $accessToken): AccessToken

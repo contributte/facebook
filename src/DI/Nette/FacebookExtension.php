@@ -10,22 +10,19 @@ use Nette\Utils\Validators;
 
 /**
  * Class FacebookExtension
- *
- * @author Filip Suska <vody105@gmail.com>
  */
 class FacebookExtension extends CompilerExtension
 {
 
-	/** @var string[]  */
+	/** @var mixed[]  */
 	private $defaults = [
-		'appId' => NULL,
-		'appSecret' => NULL,
-		'defaultGraphVersion' => NULL,
+		'appId' => null,
+		'appSecret' => null,
+		'defaultGraphVersion' => null,
 		'persistentDataHandler' => 'session',
 	];
 
 	/**
-	 * @return void
 	 * @throws AssertionException
 	 */
 	public function loadConfiguration(): void
@@ -44,7 +41,7 @@ class FacebookExtension extends CompilerExtension
 		];
 
 		// Facebook has its own default value for default_graph_version
-		if ($config['defaultGraphVersion'] !== NULL) {
+		if ($config['defaultGraphVersion'] !== null) {
 			$appData['default_graph_version'] = $config['defaultGraphVersion'];
 		}
 
