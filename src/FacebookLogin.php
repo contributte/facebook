@@ -98,7 +98,7 @@ class FacebookLogin
 	}
 
 	/**
-	 * @param string|AccessToken
+	 * @param string|AccessToken $accessToken
 	 * @param string[] $fields
 	 */
 	public function getMe($accessToken, array $fields): GraphUser
