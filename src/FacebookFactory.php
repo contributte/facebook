@@ -8,8 +8,6 @@ use Nette\Http\Session;
 
 /**
  * Class FacebookFactory
- *
- * @author Filip Suska <vody105@gmail.com>
  */
 class FacebookFactory
 {
@@ -22,7 +20,6 @@ class FacebookFactory
 
 	/**
 	 * @param string[] $config
-	 * @param Session $session
 	 */
 	public function __construct(array $config, Session $session)
 	{
@@ -31,7 +28,6 @@ class FacebookFactory
 	}
 
 	/**
-	 * @return Facebook
 	 * @throws FacebookSDKException
 	 */
 	public function create(): Facebook

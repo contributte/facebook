@@ -7,10 +7,10 @@ Ultra easy-to-use Facebook wrapper for [`Nette Framework`](https://github.com/ne
 [![Build Status](https://img.shields.io/travis/contributte/facebook.svg?style=flat-square)](https://travis-ci.org/contributte/facebook)
 [![Code coverage](https://img.shields.io/coveralls/contributte/facebook.svg?style=flat-square)](https://coveralls.io/r/contributte/facebook)
 [![Licence](https://img.shields.io/packagist/l/contributte/facebook.svg?style=flat-square)](https://packagist.org/packages/contributte/facebook)
-
 [![Downloads this Month](https://img.shields.io/packagist/dm/contributte/facebook.svg?style=flat-square)](https://packagist.org/packages/contributte/facebook)
 [![Downloads total](https://img.shields.io/packagist/dt/contributte/facebook.svg?style=flat-square)](https://packagist.org/packages/contributte/facebook)
 [![Latest stable](https://img.shields.io/packagist/v/contributte/facebook.svg?style=flat-square)](https://packagist.org/packages/contributte/facebook)
+[![PHPStan](https://img.shields.io/badge/PHPStan-enabled-brightgreen.svg?style=flat)](https://github.com/phpstan/phpstan)
 
 ## Discussion / Help
 
@@ -54,7 +54,7 @@ composer require contributte/facebook
         <a href="https://github.com/Vody105">Filip Šuška</a>
       </td>
     </tr>
-  <tbody>
+  </tbody>
 </table>
 
 -----

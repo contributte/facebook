@@ -13,7 +13,7 @@ require_once __DIR__ . '/../../bootstrap.php';
 
 // Test if FacebookLogin is created
 test(function (): void {
-	$loader = new ContainerLoader(TEMP_DIR, TRUE);
+	$loader = new ContainerLoader(TEMP_DIR, true);
 	$class = $loader->load(function (Compiler $compiler): void {
 		$compiler->addExtension('http', new HttpExtension())
 			->addExtension('session', new SessionExtension())
@@ -26,7 +26,7 @@ test(function (): void {
 			]);
 	}, 1);
 	/** @var Container $container */
-	$container = new $class;
+	$container = new $class();
 
 	// Service created
 	Assert::type(FacebookLogin::class, $container->getService('facebook.login'));
@@ -34,7 +34,7 @@ test(function (): void {
 
 // Test if FacebookLogin is created with Nette\DI\Statement
 test(function (): void {
-	$loader = new ContainerLoader(TEMP_DIR, TRUE);
+	$loader = new ContainerLoader(TEMP_DIR, true);
 	$class = $loader->load(function (Compiler $compiler): void {
 		$compiler->addExtension('http', new HttpExtension())
 			->addExtension('session', new SessionExtension())
@@ -47,7 +47,7 @@ test(function (): void {
 			]);
 	}, 1);
 	/** @var Container $container */
-	$container = new $class;
+	$container = new $class();
 
 	// Service created
 	Assert::type(FacebookLogin::class, $container->getService('facebook.login'));
