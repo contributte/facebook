@@ -5,44 +5,40 @@ namespace Contributte\Facebook\DI\Nette;
 use Contributte\Facebook\FacebookFactory;
 use Contributte\Facebook\FacebookLogin;
 use Nette\DI\CompilerExtension;
-use Nette\Utils\AssertionException;
-use Nette\Utils\Validators;
+use Nette\Schema\Expect;
+use Nette\Schema\Schema;
+use stdClass;
 
 /**
- * Class FacebookExtension
+ * @property-read stdClass $config
  */
 class FacebookExtension extends CompilerExtension
 {
 
-	/** @var mixed[]  */
-	private $defaults = [
-		'appId' => null,
-		'appSecret' => null,
-		'defaultGraphVersion' => null,
-		'persistentDataHandler' => 'session',
-	];
+	public function getConfigSchema(): Schema
+	{
+		return Expect::structure([
+			'appId' => Expect::string()->required(),
+			'appSecret' => Expect::string()->required(),
+			'defaultGraphVersion' => Expect::string(),
+			'persistentDataHandler' => Expect::string('session'),
+		]);
+	}
 
-	/**
-	 * @throws AssertionException
-	 */
 	public function loadConfiguration(): void
 	{
-		$config = $this->validateConfig($this->defaults);
 		$builder = $this->getContainerBuilder();
-
-		Validators::assertField($config, 'appId', 'string|number|Nette\DI\Statement');
-		Validators::assertField($config, 'appSecret', 'string|number|Nette\DI\Statement');
-		Validators::assertField($config, 'persistentDataHandler', 'string');
+		$config = $this->config;
 
 		$appData = [
-			'app_id' => $config['appId'],
-			'app_secret' => $config['appSecret'],
-			'persistent_data_handler' => $config['persistentDataHandler'],
+			'app_id' => $config->appId,
+			'app_secret' => $config->appSecret,
+			'persistent_data_handler' => $config->persistentDataHandler,
 		];
 
 		// Facebook has its own default value for default_graph_version
-		if ($config['defaultGraphVersion'] !== null) {
-			$appData['default_graph_version'] = $config['defaultGraphVersion'];
+		if ($config->defaultGraphVersion !== null) {
+			$appData['default_graph_version'] = $config->defaultGraphVersion;
 		}
 
 		$builder->addDefinition($this->prefix('facebookFactory'))

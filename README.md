@@ -23,9 +23,11 @@ Easy-to-use Facebook wrapper for [`Nette Framework`](https://github.com/nette/).
 
 ## Versions
 
-| State  | Version | Branch   | PHP      |
-|--------|---------|----------|----------|
-| stable | `^0.2`  | `master` | `>= 7.1` |
+| State       | Version | Branch   | Nette | PHP     |
+|-------------|---------|----------|-------|---------|
+| dev         | `^0.4`  | `master` | 3.0+  | `^7.2`  |
+| stable      | `^0.3`  | `master` | 3.0+  | `^7.2`  |
+| stable      | `^0.2`  | `master` | 2.4   | `>=7.1` |
 
 ## Maintainers
 
