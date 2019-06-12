@@ -1,13 +1,26 @@
 # Facebook
 
+Easy-to-use Facebook wrapper for [`Nette Framework`](https://github.com/nette/).
+
 ## Content
 
-- [Requirements - what do you need](#requirements)
-- [Installation - how to register an extension](#nstallation)
-- [Usage - how to use it](#usage)
+- [Setup](#setup)
+- [Configuration](#configuration)
+- [Usage](#usage)
 - [JavaScript - login button](#javascript)
 
-## Requirements
+## Setup
+
+```bash
+composer require contributte/facebook
+```
+
+```yaml
+extensions:
+    facebook: Contributte\Facebook\DI\Nette\FacebookExtension
+```
+
+## Configuration
 
 You need to create a FacebookApp and supply these parameters:
 
@@ -16,12 +29,7 @@ You need to create a FacebookApp and supply these parameters:
 * **defaultGraphVersion** (optional)
 * **persistentDataHandler** (optional) default value: **session**
 
-## Installation
-
 ```yaml
-extensions:
-    facebook: Contributte\Facebook\DI\Nette\FacebookExtension
-    
 facebook:
     appId: %yourAppId%
     appSecret: %yourAppSecret%

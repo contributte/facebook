@@ -1,8 +1,6 @@
 # Facebook
 
-Ultra easy-to-use Facebook wrapper for [`Nette Framework`](https://github.com/nette/).
-
------
+Easy-to-use Facebook wrapper for [`Nette Framework`](https://github.com/nette/).
 
 [![Build Status](https://img.shields.io/travis/contributte/facebook.svg?style=flat-square)](https://travis-ci.org/contributte/facebook)
 [![Code coverage](https://img.shields.io/coveralls/contributte/facebook.svg?style=flat-square)](https://coveralls.io/r/contributte/facebook)
@@ -10,29 +8,24 @@ Ultra easy-to-use Facebook wrapper for [`Nette Framework`](https://github.com/ne
 [![Downloads this Month](https://img.shields.io/packagist/dm/contributte/facebook.svg?style=flat-square)](https://packagist.org/packages/contributte/facebook)
 [![Downloads total](https://img.shields.io/packagist/dt/contributte/facebook.svg?style=flat-square)](https://packagist.org/packages/contributte/facebook)
 [![Latest stable](https://img.shields.io/packagist/v/contributte/facebook.svg?style=flat-square)](https://packagist.org/packages/contributte/facebook)
-[![PHPStan](https://img.shields.io/badge/PHPStan-enabled-brightgreen.svg?style=flat)](https://github.com/phpstan/phpstan)
+[![PHPStan](https://img.shields.io/badge/PHPStan-enabled-brightgreen.svg?style=flat-square)](https://github.com/phpstan/phpstan)
 
 ## Discussion / Help
 
 [![Join the chat](https://img.shields.io/gitter/room/contributte/contributte.svg?style=flat-square)](http://bit.ly/ctteg)
 
-## Install
+## Documentation
 
-```
-composer require contributte/facebook
-```
+- [Setup](.docs/README.md#setup)
+- [Configuration](.docs/README.md#configuration)
+- [Usage](.docs/README.md#usage)
+- [JavaScript - login button](.docs/README.md#javascript)
 
 ## Versions
 
 | State  | Version | Branch   | PHP      |
 |--------|---------|----------|----------|
 | stable | `^0.2`  | `master` | `>= 7.1` |
-
-## Overview
-
-- [Requirements - what do do you need](https://github.com/contributte/facebook/blob/master/.docs/README.md#requirements)
-- [Installation - how to register an extension](https://github.com/contributte/facebook/blob/master/.docs/README.md#Installation)
-- [Usage - how to use it](https://github.com/contributte/facebook/blob/master/.docs/README.md#usage)
 
 ## Maintainers
 
@@ -56,7 +49,5 @@ composer require contributte/facebook
     </tr>
   </tbody>
 </table>
-
------
 
 Thank you for testing, reporting and contributing.
