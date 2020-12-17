@@ -28,6 +28,7 @@ You need to create a FacebookApp and supply these parameters:
 * **appSecret**
 * **defaultGraphVersion** (optional)
 * **persistentDataHandler** (optional) default value: **session**
+* **httpClientHandler** (optional)
 
 ```yaml
 facebook:
@@ -90,16 +91,16 @@ If you need to specify your own state param (more info [here](https://developers
 You can also use FB login button, for example:
 
 ```
-<div 
-    class="fb-login-button" 
-    onlogin="fbAfterLogin()" 
-    data-width="200" 
-    data-max-rows="1" 
-    data-size="medium" 
-    data-button-type="continue_with" 
-    data-show-faces="false" 
-    data-auto-logout-link="false" 
-    data-use-continue-as="true" 
+<div
+    class="fb-login-button"
+    onlogin="fbAfterLogin()"
+    data-width="200"
+    data-max-rows="1"
+    data-size="medium"
+    data-button-type="continue_with"
+    data-show-faces="false"
+    data-auto-logout-link="false"
+    data-use-continue-as="true"
     data-scope="email,public_profile"
 >
 Login
