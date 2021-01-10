@@ -41,9 +41,7 @@ class FacebookLogin
 			$helper->getPersistentDataHandler()->set('state', $stateParam);
 		}
 
-		$url = $helper->getLoginUrl($redirectUrl, $permissions);
-
-		return $url;
+		return $helper->getLoginUrl($redirectUrl, $permissions);
 	}
 
 	/**
@@ -100,6 +98,7 @@ class FacebookLogin
 	/**
 	 * @param string|AccessToken $accessToken
 	 * @param string[] $fields
+	 * @return GraphUser<mixed>
 	 */
 	public function getMe($accessToken, array $fields): GraphUser
 	{
