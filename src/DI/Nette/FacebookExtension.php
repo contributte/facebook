@@ -22,6 +22,7 @@ class FacebookExtension extends CompilerExtension
 			'appSecret' => Expect::string()->required(),
 			'defaultGraphVersion' => Expect::string(),
 			'persistentDataHandler' => Expect::string('session'),
+			'httpClientHandler' => Expect::mixed()
 		]);
 	}
 
@@ -39,6 +40,10 @@ class FacebookExtension extends CompilerExtension
 		// Facebook has its own default value for default_graph_version
 		if ($config->defaultGraphVersion !== null) {
 			$appData['default_graph_version'] = $config->defaultGraphVersion;
+		}
+
+		if ($config->httpClientHandler !== null) {
+			$appData['http_client_handler'] = $config->httpClientHandler;
 		}
 
 		$builder->addDefinition($this->prefix('facebookFactory'))
