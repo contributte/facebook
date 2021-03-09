@@ -90,7 +90,7 @@ If you need to specify your own state param (more info [here](https://developers
 
 You can also use FB login button, for example:
 
-```
+```html
 <div
     class="fb-login-button"
     onlogin="fbAfterLogin()"
