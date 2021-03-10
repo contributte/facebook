@@ -15,9 +15,9 @@ Easy-to-use Facebook wrapper for [`Nette Framework`](https://github.com/nette/).
 composer require contributte/facebook
 ```
 
-```yaml
+```neon
 extensions:
-    facebook: Contributte\Facebook\DI\Nette\FacebookExtension
+	facebook: Contributte\Facebook\DI\Nette\FacebookExtension
 ```
 
 ## Configuration
@@ -30,10 +30,10 @@ You need to create a FacebookApp and supply these parameters:
 * **persistentDataHandler** (optional) default value: **session**
 * **httpClientHandler** (optional)
 
-```yaml
+```neon
 facebook:
-    appId: %yourAppId%
-    appSecret: %yourAppSecret%
+	appId: %yourAppId%
+	appSecret: %yourAppSecret%
 ```
 
 ## Usage
@@ -52,33 +52,33 @@ use Nette\Security\AuthenticationException;
 final class SignPresenter extends Presenter
 {
 
-    /** @var FacebookLogin @inject */
-    public $facebookLogin;
+	/** @var FacebookLogin @inject */
+	public $facebookLogin;
 
-    public function actionFacebook()
-    {
-        // Redirect to FB and ask customer to grant access to his account
-        $url = $this->facebookLogin->getLoginUrl($this->link('//facebookAuthorize'), ['email', 'public_profile']);
-        $this->sendResponse(new RedirectResponse($url));
-    }
+	public function actionFacebook()
+	{
+		// Redirect to FB and ask customer to grant access to his account
+		$url = $this->facebookLogin->getLoginUrl($this->link('//facebookAuthorize'), ['email', 'public_profile']);
+		$this->sendResponse(new RedirectResponse($url));
+	}
 
-    /**
-     * Log in user with accessToken obtained after redirected from FB
-     *
-     * @return void
-     */
-    public function actionFacebookAuthorize()
-    {
-        // Fetch User data from FB and try to login
-        try {
-            $token = $this->facebookLogin->getAccessToken();
+	/**
+	 * Log in user with accessToken obtained after redirected from FB
+	 *
+	 * @return void
+	 */
+	public function actionFacebookAuthorize()
+	{
+		// Fetch User data from FB and try to login
+		try {
+			$token = $this->facebookLogin->getAccessToken();
 
-            $this->user->login('facebook', $this->facebookLogin->getMe($token, ['first_name', 'last_name', 'email', 'gender']));
-            $this->flashMessage('Login successful :-).', 'success');
-        } catch (FacebookLoginException | AuthenticationException $e) {
-            $this->flashMessage('Login failed. :-( Try again.', 'danger');
-        }
-    }
+			$this->user->login('facebook', $this->facebookLogin->getMe($token, ['first_name', 'last_name', 'email', 'gender']));
+			$this->flashMessage('Login successful :-).', 'success');
+		} catch (FacebookLoginException | AuthenticationException $e) {
+			$this->flashMessage('Login failed. :-( Try again.', 'danger');
+		}
+	}
 
 }
 
@@ -115,14 +115,14 @@ And use `onlogin` event to call backend code which takes care of registration/lo
  */
 public function actionFacebookCookie()
 {
-    // Fetch User data from FB and try to login
-    try {
-        $token = $this->facebookLogin->getAccessTokenFromCookie();
+	// Fetch User data from FB and try to login
+	try {
+		$token = $this->facebookLogin->getAccessTokenFromCookie();
 
-        $this->user->login('facebook', $this->facebookLogin->getMe($token, ['first_name', 'last_name', 'email', 'gender']));
-        $this->flashMessage('Login successful :-).', 'success');
-    } catch (FacebookLoginException | AuthenticationException $e) {
-        $this->flashMessage('Login failed. :-( Try again.', 'danger');
-    }
+		$this->user->login('facebook', $this->facebookLogin->getMe($token, ['first_name', 'last_name', 'email', 'gender']));
+		$this->flashMessage('Login successful :-).', 'success');
+	} catch (FacebookLoginException | AuthenticationException $e) {
+		$this->flashMessage('Login failed. :-( Try again.', 'danger');
+	}
 }
 ```
