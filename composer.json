@@ -1,7 +1,14 @@
 {
   "name": "contributte/facebook",
   "description": "Easy-to-use Facebook login wrapper for [`Nette Framework`](https://github.com/nette/).",
-  "keywords": ["facebook", "login", "php", "sdk", "nette", "oauth2"],
+  "keywords": [
+    "facebook",
+    "login",
+    "php",
+    "sdk",
+    "nette",
+    "oauth2"
+  ],
   "type": "library",
   "license": "MIT",
   "homepage": "https://github.com/contributte/facebook",
