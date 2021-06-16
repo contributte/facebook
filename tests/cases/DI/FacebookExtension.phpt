@@ -20,8 +20,9 @@ test(function (): void {
 			->addExtension('facebook', new FacebookExtension())
 			->addConfig([
 				'facebook' => [
-					'appId' => 'd5sa4d5',
-					'appSecret' => 'as5dd4sa6d54a6s5d4',
+					'clientId' => 'd5sa4d5',
+					'clientSecret' => 'as5dd4sa6d54a6s5d4',
+					'graphApiVersion' => 'v11.0'
 				],
 			]);
 	}, 1);
@@ -41,8 +42,9 @@ test(function (): void {
 			->addExtension('facebook', new FacebookExtension())
 			->addConfig([
 				'facebook' => [
-					'appId' => '@coolService::getFacebookAppId()',
-					'appSecret' => '@coolService::getFacebookSecret()',
+					'clientId' => '@coolService::getFacebookAppId()',
+					'clientSecret' => '@coolService::getFacebookSecret()',
+					'graphApiVersion' => 'v11.0'
 				],
 			]);
 	}, 1);

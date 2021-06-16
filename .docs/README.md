@@ -2,12 +2,17 @@
 
 Easy-to-use Facebook wrapper for [`Nette Framework`](https://github.com/nette/).
 
+Using library
+https://github.com/thephpleague/oauth2-facebook
+
+because Facebook SDK library is not developed anymore.
+https://github.com/facebookarchive/php-graph-sdk/issues/1217
+
 ## Content
 
 - [Setup](#setup)
 - [Configuration](#configuration)
 - [Usage](#usage)
-- [JavaScript - login button](#javascript)
 
 ## Setup
 
@@ -24,16 +29,15 @@ extensions:
 
 You need to create a FacebookApp and supply these parameters:
 
-* **appId**
-* **appSecret**
-* **defaultGraphVersion** (optional)
-* **persistentDataHandler** (optional) default value: **session**
-* **httpClientHandler** (optional)
+* **clientId**
+* **clientSecret**
+* **graphApiVersion**
 
 ```neon
 facebook:
-	appId: %yourAppId%
-	appSecret: %yourAppSecret%
+	clientId: %yourAppId%
+	clientSecret: %yourAppSecret%
+	graphApiVersion: "v11.0" # https://developers.facebook.com/docs/graph-api/changelog/
 ```
 
 ## Usage
@@ -55,74 +59,66 @@ final class SignPresenter extends Presenter
 	/** @var FacebookLogin @inject */
 	public $facebookLogin;
 
+	private function getFBAuthorizeUrl(): string
+	{
+	    return $this->link('//facebookAuthorize');
+	}
+
 	public function actionFacebook()
 	{
 		// Redirect to FB and ask customer to grant access to his account
-		$url = $this->facebookLogin->getLoginUrl($this->link('//facebookAuthorize'), ['email', 'public_profile']);
+		$url = $this->facebookLogin->getLoginUrl($this->getFBAuthorizeUrl());
 		$this->sendResponse(new RedirectResponse($url));
 	}
 
 	/**
 	 * Log in user with accessToken obtained after redirected from FB
-	 *
 	 * @return void
 	 */
 	public function actionFacebookAuthorize()
 	{
+		$url = $this->getFBAuthorizeUrl();
+		$code = $this->getParameter('code');
+
 		// Fetch User data from FB and try to login
 		try {
-			$token = $this->facebookLogin->getAccessToken();
+			$user = $this->facebookLogin->getMe($code, $url);
 
-			$this->user->login('facebook', $this->facebookLogin->getMe($token, ['first_name', 'last_name', 'email', 'gender']));
+			$identity = new SimpleIdentity(
+				1, // id
+				'user', // role
+				['name' => $user->getEmail()]
+			);
+			$this->user->login($identity);
 			$this->flashMessage('Login successful :-).', 'success');
 		} catch (FacebookLoginException | AuthenticationException $e) {
-			$this->flashMessage('Login failed. :-( Try again.', 'danger');
+			$this->flashMessage("Login failed. :-( Try again. {$e->getMessage()}", 'danger');
 		}
+
+		$this->redirect(':Homepage:');
+	}
+
+
+
+	public function handleLogout()
+	{
+		$this->user->logout(true);
+		$this->redirect(':Homepage:');
 	}
 
 }
 
 ```
 
-If you need to specify your own state param (more info [here](https://developers.facebook.com/docs/facebook-login/security/#stateparam) mind also checking Enable Strict Mode). `Facebook::getLoginUrl()` takes optional third parameter `$stateParam` which FB passes back unchanged.
+Template
 
-## JavaScript
-
-You can also use FB login button, for example:
-
-```html
-<div
-    class="fb-login-button"
-    onlogin="fbAfterLogin()"
-    data-width="200"
-    data-max-rows="1"
-    data-size="medium"
-    data-button-type="continue_with"
-    data-show-faces="false"
-    data-auto-logout-link="false"
-    data-use-continue-as="true"
-    data-scope="email,public_profile"
->
-Login
-</div>
-```
-
-And use `onlogin` event to call backend code which takes care of registration/login process:
-
-```php
-/**
- * Log in user with accessToken from cookie/session after javascript authorization
- */
-public function actionFacebookCookie()
-{
-	// Fetch User data from FB and try to login
-	try {
-		$token = $this->facebookLogin->getAccessTokenFromCookie();
-
-		$this->user->login('facebook', $this->facebookLogin->getMe($token, ['first_name', 'last_name', 'email', 'gender']));
-		$this->flashMessage('Login successful :-).', 'success');
-	} catch (FacebookLoginException | AuthenticationException $e) {
-		$this->flashMessage('Login failed. :-( Try again.', 'danger');
-	}
-}
+```latte
+	<a href="{plink :Sign:facebook}" rel="nofollow" class="btn btn-primary btn-facebook">
+		FB Login
+	</a>
+	{if $user->isLoggedIn()}
+		<a href="{plink logout!}" rel="nofollow" class="btn btn-default">
+			logout
+		</a>
+	{/if}
 ```

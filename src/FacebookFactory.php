@@ -2,8 +2,7 @@
 
 namespace Contributte\Facebook;
 
-use Facebook\Exceptions\FacebookSDKException;
-use Facebook\Facebook;
+use League\OAuth2\Client\Provider\Facebook;
 use Nette\Http\Session;
 
 /**
@@ -28,7 +27,7 @@ class FacebookFactory
 	}
 
 	/**
-	 * @throws FacebookSDKException
+	 * @return Facebook
 	 */
 	public function create(): Facebook
 	{

@@ -14,15 +14,12 @@ use stdClass;
  */
 class FacebookExtension extends CompilerExtension
 {
-
 	public function getConfigSchema(): Schema
 	{
 		return Expect::structure([
-			'appId' => Expect::string()->required(),
-			'appSecret' => Expect::string()->required(),
-			'defaultGraphVersion' => Expect::string(),
-			'persistentDataHandler' => Expect::string('session'),
-			'httpClientHandler' => Expect::mixed()
+			'clientId' => Expect::string()->required(),
+			'clientSecret' => Expect::string()->required(),
+			'graphApiVersion' => Expect::string()->required()
 		]);
 	}
 
@@ -32,19 +29,10 @@ class FacebookExtension extends CompilerExtension
 		$config = $this->config;
 
 		$appData = [
-			'app_id' => $config->appId,
-			'app_secret' => $config->appSecret,
-			'persistent_data_handler' => $config->persistentDataHandler,
+			'clientId' => $config->clientId,
+			'clientSecret' => $config->clientSecret,
+			'graphApiVersion' => $config->graphApiVersion,
 		];
-
-		// Facebook has its own default value for default_graph_version
-		if ($config->defaultGraphVersion !== null) {
-			$appData['default_graph_version'] = $config->defaultGraphVersion;
-		}
-
-		if ($config->httpClientHandler !== null) {
-			$appData['http_client_handler'] = $config->httpClientHandler;
-		}
 
 		$builder->addDefinition($this->prefix('facebookFactory'))
 			->setType(FacebookFactory::class)

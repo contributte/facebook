@@ -3,11 +3,11 @@
 namespace Contributte\Facebook;
 
 use Contributte\Facebook\Exceptions\FacebookLoginException;
-use Facebook\Authentication\AccessToken;
-use Facebook\Exceptions\FacebookResponseException;
-use Facebook\Exceptions\FacebookSDKException;
-use Facebook\Facebook;
-use Facebook\GraphNodes\GraphUser;
+use Contributte\Facebook\Exceptions\FacebookTokenException;
+use Exception;
+use League\OAuth2\Client\Provider\FacebookUser;
+use League\OAuth2\Client\Token\AccessToken;
+use League\OAuth2\Client\Provider\Facebook;
 
 /**
  * Class LoginService
@@ -18,9 +18,6 @@ class FacebookLogin
 	/** @var Facebook */
 	private $facebook;
 
-	/**
-	 * @throws FacebookSDKException
-	 */
 	public function __construct(Facebook $facebook)
 	{
 		$this->facebook = $facebook;
@@ -28,67 +25,29 @@ class FacebookLogin
 
 	/**
 	 * Creates Response that redirects person to FB for authorization and back
-	 *
-	 * @param string[] $permissions
 	 */
-	public function getLoginUrl(string $redirectUrl, array $permissions = ['public_profile'], ?string $stateParam = null): string
+	public function getLoginUrl(string $redirectUrl): string
 	{
-		// Create redirect URL with econea return URL
-		$helper = $this->facebook->getRedirectLoginHelper();
-
-		// Set our own state param
-		if (isset($stateParam)) {
-			$helper->getPersistentDataHandler()->set('state', $stateParam);
-		}
-
-		return $helper->getLoginUrl($redirectUrl, $permissions);
+		return $this->facebook->getAuthorizationUrl(['redirect_uri' => $redirectUrl]);
 	}
 
 	/**
 	 * Gets access token from fb for queried user
-	 *
 	 * @throws FacebookLoginException
 	 */
 	public function getAccessToken(): AccessToken
 	{
-		$helper = $this->facebook->getRedirectLoginHelper();
-
 		try {
-			// Get accessToken from $_GET
-			$accessToken = $helper->getAccessToken();
-
-			// Failed to get accessToken
-			if (!isset($accessToken)) {
-				if ($helper->getError() !== null) {
-					throw new FacebookLoginException($helper->getError());
-				} else {
-					throw new FacebookLoginException('Facebook: Bad request.');
-				}
-			}
-
-			$accessToken = $this->getLongLifeValidatedToken($accessToken);
-		} catch (FacebookResponseException | FacebookSDKException $e) {
-			throw new FacebookLoginException($e->getMessage());
-		}
-
-		return $accessToken;
-	}
-
-	/**
-	 * @throws FacebookLoginException
-	 */
-	public function getAccessTokenFromCookie(): AccessToken
-	{
-		try {
-			$helper = $this->facebook->getJavaScriptHelper();
-			$accessToken = $helper->getAccessToken();
+			$accessToken = $this->facebook->getAccessToken('authorization_code', [
+				'code' => $_GET['code']
+			]);
 
 			if (!isset($accessToken)) {
-				throw new FacebookLoginException('No cookie set or no OAuth data could be obtained from cookie.');
+				throw new FacebookLoginException('Facebook: can\'t get access token.');
 			}
 
-			$accessToken = $this->getLongLifeValidatedToken($accessToken);
-		} catch (FacebookResponseException | FacebookSDKException $e) {
+			$accessToken = $this->getLongLifeValidatedToken();
+		} catch (Exception $e) {
 			throw new FacebookLoginException($e->getMessage());
 		}
 
@@ -96,40 +55,35 @@ class FacebookLogin
 	}
 
 	/**
-	 * @param string|AccessToken $accessToken
-	 * @param string[] $fields
-	 * @return GraphUser<mixed>
+	 * Get FB user data
+	 * @return FacebookUser|null
+	 * @throws FacebookTokenException
 	 */
-	public function getMe($accessToken, array $fields): GraphUser
+	public function getMe(string $code, string $redirectUrl): ?FacebookUser
 	{
 		try {
-			// Fetch user data
-			$me = $this->facebook->get('/me?fields=' . implode(',', $fields), $accessToken);
-			return $me->getGraphUser();
-		} catch (FacebookSDKException $e) {
+			$accessToken = $this->facebook->getAccessToken('authorization_code', [
+				'code' => $code,
+				'redirect_uri' => $redirectUrl
+			]);
+			return $this->facebook->getResourceOwner($accessToken);
+		} catch (Exception $e) {
 			throw new FacebookLoginException($e->getMessage());
 		}
 	}
 
 	/**
-	 * @throws FacebookSDKException
+	 * @throws FacebookTokenException
 	 */
-	private function getLongLifeValidatedToken(AccessToken $accessToken): AccessToken
+	private function getLongLifeValidatedToken(): AccessToken
 	{
-		// Customer accepted our app
-		$oAuth2Client = $this->facebook->getOAuth2Client();
-
-		// Validate token
-		$tokenMetadata = $oAuth2Client->debugToken($accessToken);
-		$tokenMetadata->validateAppId($this->facebook->getApp()->getId());
-		$tokenMetadata->validateExpiration();
-
-		// Exchanges a short-lived access token for a long-lived one
-		if (!$accessToken->isLongLived()) {
-			$accessToken = $oAuth2Client->getLongLivedAccessToken($accessToken);
+		try {
+			$token = $this->facebook->getLongLivedAccessToken($this->facebook->getAccessToken());
+		} catch (Exception $e) {
+			throw new FacebookTokenException($e->getMessage());
 		}
 
-		return $accessToken;
+		return $token;
 	}
 
 }
