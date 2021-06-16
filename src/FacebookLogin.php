@@ -39,7 +39,7 @@ class FacebookLogin
 	{
 		try {
 			$accessToken = $this->facebook->getAccessToken('authorization_code', [
-				'code' => $_GET['code']
+				'code' => $_GET['code'] ?? ''
 			]);
 
 			if (!isset($accessToken)) {

@@ -31,9 +31,9 @@ class FacebookFactory
 	 */
 	public function create(): Facebook
 	{
-		if ($this->config['persistent_data_handler'] === 'session') {
+		/*if ($this->config['persistent_data_handler'] === 'session') {
 			$this->session->start();
-		}
+		}*/
 
 		return new Facebook($this->config);
 	}
