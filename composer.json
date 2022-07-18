@@ -21,6 +21,9 @@
       "name": "Filip Šuška"
     }
   ],
+  "repositories": [
+    { "type": "git", "url": "https://github.com/holyfork/facebook-graph-sdk" }
+  ],
   "require": {
     "php": ">=7.2",
     "facebook/graph-sdk": "^5.6",
