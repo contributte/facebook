@@ -5,6 +5,7 @@ namespace Contributte\Facebook\DI\Nette;
 use Contributte\Facebook\FacebookFactory;
 use Contributte\Facebook\FacebookLogin;
 use Nette\DI\CompilerExtension;
+use Nette\DI\Definitions\Statement;
 use Nette\Schema\Expect;
 use Nette\Schema\Schema;
 use stdClass;
@@ -18,8 +19,8 @@ class FacebookExtension extends CompilerExtension
 	public function getConfigSchema(): Schema
 	{
 		return Expect::structure([
-			'appId' => Expect::string()->required(),
-			'appSecret' => Expect::string()->required(),
+			'appId' => Expect::anyOf(Expect::string(), Expect::type(Statement::class))->required(),
+			'appSecret' => Expect::anyOf(Expect::string(), Expect::type(Statement::class))->required(),
 			'defaultGraphVersion' => Expect::string(),
 			'persistentDataHandler' => Expect::string('session'),
 			'httpClientHandler' => Expect::mixed()
