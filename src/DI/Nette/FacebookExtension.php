@@ -23,7 +23,7 @@ class FacebookExtension extends CompilerExtension
 			'appSecret' => Expect::anyOf(Expect::string(), Expect::type(Statement::class))->required(),
 			'defaultGraphVersion' => Expect::string(),
 			'persistentDataHandler' => Expect::string('session'),
-			'httpClientHandler' => Expect::mixed()
+			'httpClientHandler' => Expect::mixed(),
 		]);
 	}
 
