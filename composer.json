@@ -26,27 +26,35 @@
   ],
   "require": {
     "php": ">=7.2",
-    "facebook/graph-sdk": "^5.6",
+    "facebook/graph-sdk": "dev-next",
     "nette/di": "^3.0.0",
     "nette/http": "^3.0.1"
   },
   "require-dev": {
-    "ninjify/qa": "^0.12",
+    "ninjify/qa": "^0.13",
     "ninjify/nunjuck": "^0.4",
-    "phpstan/phpstan": "^0.12",
-    "phpstan/phpstan-deprecation-rules": "^0.12",
-    "phpstan/phpstan-nette": "^0.12",
-    "phpstan/phpstan-strict-rules": "^0.12"
+    "phpstan/phpstan": "^1.0",
+    "phpstan/phpstan-deprecation-rules": "^1.0",
+    "phpstan/phpstan-nette": "^1.0",
+    "phpstan/phpstan-strict-rules": "^1.0"
   },
   "autoload": {
     "psr-4": {
       "Contributte\\Facebook\\": "src"
     }
   },
+  "autoload-dev": {
+    "psr-4": {
+      "Tests\\": "tests"
+    }
+  },
   "minimum-stability": "dev",
   "prefer-stable": true,
   "config": {
-    "sort-packages": true
+    "sort-packages": true,
+    "allow-plugins": {
+      "dealerdirect/phpcodesniffer-composer-installer": true
+    }
   },
   "extra": {
     "branch-alias": {
