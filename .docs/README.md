@@ -20,6 +20,16 @@ extensions:
 	facebook: Contributte\Facebook\DI\Nette\FacebookExtension
 ```
 
+If you are using PHP 8.0+, you need to use forked version of `facebook/graph-sdk`. You can rely on our fork [holyfork/facebook-graph-sdk](https://github.com/holyfork/facebook-graph-sdk), it's tested and working.
+
+```
+{
+  "repositories": [
+    { "type": "git", "url": "https://github.com/holyfork/facebook-graph-sdk" }
+  ]
+}
+```
+
 ## Configuration
 
 You need to create a FacebookApp and supply these parameters:
