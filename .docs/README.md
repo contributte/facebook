@@ -83,7 +83,7 @@ final class SignPresenter extends Presenter
 		try {
 			$token = $this->facebookLogin->getAccessToken();
 
-			$this->user->login('facebook', $this->facebookLogin->getMe($token, ['first_name', 'last_name', 'email', 'gender']));
+			$this->user->login('facebook', $this->facebookLogin->getMe($token->getValue(), ['first_name', 'last_name', 'email', 'gender']));
 			$this->flashMessage('Login successful :-).', 'success');
 		} catch (FacebookLoginException | AuthenticationException $e) {
 			$this->flashMessage('Login failed. :-( Try again.', 'danger');
